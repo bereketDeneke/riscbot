@@ -1,0 +1,464 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="visualize_lidar_world">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin
+      filename="libignition-gazebo-physics-system.so"
+      name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin
+      filename="libignition-gazebo-sensors-system.so"
+      name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin
+      filename="libignition-gazebo-scene-broadcaster-system.so"
+      name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+
+    <gui fullscreen="0">
+
+      <plugin filename="MinimalScene" name="3D View">
+        <ignition-gui>
+          <title>3D View</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.4 0.4 0.4</ambient_light>
+        <background_color>0.8 0.8 0.8</background_color>
+        <camera_pose>-6 0 6 0 0.5 0</camera_pose>
+      </plugin>
+
+      <plugin filename="EntityContextMenuPlugin" name="Entity context menu">
+        <ignition-gui>
+          <property key="state" type="string">floating</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </ignition-gui>
+      </plugin>
+      <plugin filename="GzSceneManager" name="Scene Manager">
+        <ignition-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </ignition-gui>
+      </plugin>
+      <plugin filename="InteractiveViewControl" name="Interactive view control">
+        <ignition-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </ignition-gui>
+      </plugin>
+      <plugin filename="CameraTracking" name="Camera Tracking">
+        <ignition-gui>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
+          <property key="state" type="string">floating</property>
+          <property key="showTitleBar" type="bool">false</property>
+        </ignition-gui>
+      </plugin>
+      
+      <plugin filename="WorldControl" name="World control">
+        <ignition-gui>
+          <title>World control</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">72</property>
+          <property type="double" key="width">121</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="left" target="left"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <play_pause>true</play_pause>
+        <step>true</step>
+        <start_paused>true</start_paused>
+        <use_event>true</use_event>
+
+      </plugin>
+
+      <!-- World statistics -->
+      <plugin filename="WorldStats" name="World stats">
+        <ignition-gui>
+          <title>World stats</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="bool" key="resizable">false</property>
+          <property type="double" key="height">110</property>
+          <property type="double" key="width">290</property>
+          <property type="double" key="z">1</property>
+
+          <property type="string" key="state">floating</property>
+          <anchors target="3D View">
+            <line own="right" target="right"/>
+            <line own="bottom" target="bottom"/>
+          </anchors>
+        </ignition-gui>
+
+        <sim_time>true</sim_time>
+        <real_time>true</real_time>
+        <real_time_factor>true</real_time_factor>
+        <iterations>true</iterations>
+      </plugin>
+
+      <plugin filename="VisualizeLidar" name="Visualize Lidar">
+      </plugin>
+
+
+      <plugin filename="ComponentInspector" name="Component inspector">
+        <ignition-gui>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+      </plugin>
+
+
+      <plugin filename="EntityTree" name="Entity tree">
+        <ignition-gui>
+          <property type="string" key="state">docked</property>
+        </ignition-gui>
+      </plugin>
+    </gui>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>20 20 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>20 20 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name='riscbot_base'>
+      <pose>-4 0 0.325 0 0 0.0</pose>
+      <static>false</static>
+      <link name='riscbot2/base_footprint'>
+        <inertial>
+          <pose>-0.003933 0 0.047093 0 -0 0</pose>
+          <mass>14.5976</mass>
+          <inertia>
+            <ixx>0.0571025</ixx>
+            <ixy>-4.75766e-05</ixy>
+            <ixz>0.0124684</ixz>
+            <iyy>0.0607036</iyy>
+            <iyz>-3.54224e-06</iyz>
+            <izz>0.0194214</izz>
+          </inertia>
+        </inertial>
+        <collision name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/base_link_collision'>
+          <pose>-0.064 0 0.12675 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.266 0.266 0.23</size>
+            </box>
+          </geometry>
+        </collision>
+        <collision name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/caster_link_collision_1'>
+          <pose>-0.128 0 0.033 0 -0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.033</radius>
+            </sphere>
+          </geometry>
+        </collision>
+        <collision name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/depth_camera_link_collision_2'>
+          <pose>0.067 0 0.2105 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.026 0.128 0.029</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/velodyne_base_link_collision_3'>
+          <pose>-0.064 0 0.27788 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.0717</length>
+              <radius>0.0516</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/base_link_visual'>
+          <pose>-0.064 0 0.0507 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>../../riscbot_ros/meshes/riscbot_base.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/caster_link_visual_1'>
+          <pose>-0.128 0 0.033 0 -0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.032</radius>
+            </sphere>
+          </geometry>
+        </visual>
+        <visual name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/depth_camera_link_visual_2'>
+          <pose>0.067 0 0.2105 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.026 0.128 0.029</size>
+            </box>
+          </geometry>
+        </visual>
+        <visual name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/velodyne_base_link_visual_3'>
+          <pose>-0.064 0 0.24203 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>../../riscbot_ros/meshes/sensors/VLP-16/VLP-16_base_1.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/velodyne_base_link_visual_4'>
+          <pose>-0.064 0 0.24203 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>../../riscbot_ros/meshes/sensors/VLP-16/VLP-16_base_2.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='riscbot2/base_footprint_fixed_joint_lump__riscbot2/velodyne_visual_5'>
+          <pose>-0.064 0 0.24203 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>../../riscbot_ros/meshes/sensors/VLP-16/VLP-16_scan.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <sensor name='camera' type='depth'>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <camera>
+            <horizontal_fov>1.5</horizontal_fov>
+            <image>
+              <format>B8G8R8</format>
+              <width>800</width>
+              <height>640</height>
+            </image>
+            <clip>
+              <near>0.2</near>
+              <far>100</far>
+            </clip>
+          </camera>
+          <plugin name='riscbot2_camera_plugin' filename='libgazebo_ros_openni_kinect.so'>
+            <alwaysOn>1</alwaysOn>
+            <baseline>0.11</baseline>
+            <updateRate>30</updateRate>
+            <cameraName>depth_camera</cameraName>
+            <imageTopicName>color/image_raw</imageTopicName>
+            <cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+            <depthImageTopicName>depth/image_raw</depthImageTopicName>
+            <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+            <pointCloudTopicName>depth/points</pointCloudTopicName>
+            <frameName>riscbot2/depth_camera</frameName>
+            <pointCloudCutoff>0.5</pointCloudCutoff>
+            <pointCloudCutoffMax>50</pointCloudCutoffMax>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+          </plugin>
+          <pose>0.067 0.0475 0.2105 0 -0 0</pose>
+        </sensor>
+        <sensor name='riscbot2/velodyne-VLP16' type='gpu_lidar'>
+          <!-- <visualize>0</visualize> -->
+          <topic>velodyne_lidar</topic>
+          <visualize>true</visualize>
+          <alwaysOn>1</alwaysOn>
+          <update_rate>10</update_rate>
+          <lidar>
+            <scan>
+              <horizontal>
+                <samples>1875</samples>
+                <resolution>1</resolution>
+                <min_angle>-3.14159</min_angle>
+                <max_angle>3.14159</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>16</samples>
+                <resolution>1</resolution>
+                <min_angle>-0.261799</min_angle>
+                <max_angle>0.261799</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.8</min>
+              <max>131</max>
+              <resolution>0.001</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0</stddev>
+            </noise>
+          </lidar>
+          <!-- <plugin name='gazebo_ros_laser_controller' filename='libgazebo_ros_lidar.so'>
+            <topicName>/velodyne_points</topicName>
+            <frameName>riscbot2/velodyne</frameName>
+            <min_range>0.9</min_range>
+            <max_range>130.0</max_range>
+            <gaussianNoise>0.008</gaussianNoise>
+          </plugin> -->
+          <pose>-0.064 0 0.27973 0 -0 0</pose>
+        </sensor>
+      </link>
+      <joint name='riscbot2/wheel_left_joint' type='revolute'>
+        <pose relative_to='riscbot2/base_footprint'>0 0.144 0.033 -1.57 0 0</pose>
+        <parent>riscbot2/base_footprint</parent>
+        <child>riscbot2/wheel_left_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='riscbot2/wheel_left_link'>
+        <pose relative_to='riscbot2/wheel_left_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.0284989</mass>
+          <inertia>
+            <ixx>1.11756e-05</ixx>
+            <ixy>-4.23698e-11</ixy>
+            <ixz>-5.93817e-09</ixz>
+            <iyy>1.11924e-05</iyy>
+            <iyz>-1.44001e-11</iyz>
+            <izz>2.07126e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='riscbot2/wheel_left_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.018</length>
+              <radius>0.033</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name='riscbot2/wheel_left_link_visual'>
+          <pose>0 0 0 1.57 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>../../riscbot_ros/meshes/wheels/left_tire.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+      <joint name='riscbot2/wheel_right_joint' type='revolute'>
+        <pose relative_to='riscbot2/base_footprint'>0 -0.144 0.033 -1.57 0 0</pose>
+        <parent>riscbot2/base_footprint</parent>
+        <child>riscbot2/wheel_right_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1e+16</lower>
+            <upper>1e+16</upper>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='riscbot2/wheel_right_link'>
+        <pose relative_to='riscbot2/wheel_right_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.0284989</mass>
+          <inertia>
+            <ixx>1.11756e-05</ixx>
+            <ixy>-4.23698e-11</ixy>
+            <ixz>-5.93817e-09</ixz>
+            <iyy>1.11924e-05</iyy>
+            <iyz>-1.44001e-11</iyz>
+            <izz>2.07126e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='riscbot2/wheel_right_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.018</length>
+              <radius>0.033</radius>
+            </cylinder>
+          </geometry>
+        </collision>
+        <visual name='riscbot2/wheel_right_link_visual'>
+          <pose>0 0 0 1.57 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>0.001 0.001 0.001</scale>
+              <uri>../../riscbot_ros/meshes/wheels/right_tire.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
