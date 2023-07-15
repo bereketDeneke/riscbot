@@ -236,7 +236,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>../../riscbot_ros/meshes/riscbot_base.stl</uri>
+              <uri>../meshes/riscbot_base.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -261,7 +261,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>../../riscbot_ros/meshes/sensors/VLP-16/VLP-16_base_1.dae</uri>
+              <uri>../meshes/sensors/VLP-16/VLP-16_base_1.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -270,7 +270,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>../../riscbot_ros/meshes/sensors/VLP-16/VLP-16_base_2.dae</uri>
+              <uri>../meshes/sensors/VLP-16/VLP-16_base_2.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -279,7 +279,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>../../riscbot_ros/meshes/sensors/VLP-16/VLP-16_scan.dae</uri>
+              <uri>../meshes/sensors/VLP-16/VLP-16_scan.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -405,7 +405,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>../../riscbot_ros/meshes/wheels/left_tire.stl</uri>
+              <uri>../meshes/wheels/left_tire.stl</uri>
             </mesh>
           </geometry>
         </visual>
@@ -454,7 +454,7 @@
           <geometry>
             <mesh>
               <scale>0.001 0.001 0.001</scale>
-              <uri>../../riscbot_ros/meshes/wheels/right_tire.stl</uri>
+              <uri>../meshes/wheels/right_tire.stl</uri>
             </mesh>
           </geometry>
         </visual>
